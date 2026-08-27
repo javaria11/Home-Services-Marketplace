@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'home-services-marketplace-production-3310.up.railway.app',
+  baseURL: 'https://home-services-marketplace-production-3310.up.railway.app/',
   headers: {
     'Content-Type': 'application/json',
   },
