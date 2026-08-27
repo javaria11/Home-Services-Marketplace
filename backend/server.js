@@ -11,11 +11,28 @@ const adminRoutes = require('./routes/admin');
 
 const app = express();
 
-const allowedOrigins = (process.env.CORS_ORIGIN || '*')
-  .split(',')
-  .map((o) => o.trim());
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://home-services-marketplace-lime.vercel.app'
+];
 
-app.use(cors({ origin: allowedOrigins === '*' ? true : allowedOrigins }));
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true
+}));
+
+app.options('*', cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
